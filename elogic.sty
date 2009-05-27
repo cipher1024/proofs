@@ -1,0 +1,60 @@
+\ProvidesPackage{elogic}
+
+\RequirePackage{ifthen}
+
+\newcounter{subproof}
+\newcounter{indent}
+\newcounter{firstbranch}
+
+	% Proof structure
+\newcommand{\definetabs}{  
+	\setcounter{indent}{0}
+	\whiledo{\value{indent} < \value{subproof}}{
+		$\quad$
+		\addtocounter{indent}{1}
+	} 	
+	$\qquad$ \= $\qquad$ \= $\quad$ \= \kill }
+\newenvironment{deriv}
+{	\setcounter{subproof}{0}
+	\setcounter{firstbranch}{0}
+	\begin{tabbing}
+		\definetabs
+		\definetabs}
+{	\end{tabbing}}
+\newcommand{\step}[1]{
+	\ifthenelse{\value{firstbranch} = 1}{
+		\setcounter{firstbranch}{0}
+		\> $\bullet$ \> $#1$ \\
+	}{
+		\> \> $#1$ \\ } 
+	}
+\newcommand{\infer}[2]{ 
+	\setcounter{indent}{0}
+	\whiledo{\value{indent} < \value{subproof}}{
+		\quad
+		\addtocounter{indent}{1}
+	}
+	\> $#1$ \> \>  \text{\{ #2 \}}\\ }
+\newcommand{\sidederiv}[1]
+{	\pushtabs
+	\addtocounter{subproof}{1}
+	\setcounter{firstbranch}{1}
+	\definetabs
+	#1
+	\setcounter{firstbranch}{1}
+	\addtocounter{subproof}{-1}
+	\poptabs
+}
+
+	% Proof anotation
+\newcommand{\changeopen}[0]{ \llcorner }
+\newcommand{\changeclose}[0]{ \lrcorner }
+\newcommand{\changedopen}[0]{ \ulcorner }
+\newcommand{\changedclose}[0]{ \urcorner }
+\newcommand{\change}[1]{ \changeopen #1 \changeclose}
+\newcommand{\changed}[1]{ \changedopen #1 \changedclose}
+\newcommand{\changeul}[3]{\changedopen #1 \changeopen #2 \changedclose #3 \changeclose}
+\newcommand{\changelu}[3]{\changeopen #1 \changedopen #2 \changeclose #3 \changedclose}
+
+\newcommand{\iter}[4]{\langle\:#1\ #2\ :\ #3\ :\ #4\:\rangle}
+
