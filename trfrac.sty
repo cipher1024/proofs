@@ -1,0 +1,215 @@
+%%
+%% This is file `trfrac.sty',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% trfrac.dtx  (with options: `file')
+%% 
+%% This is a generated file.
+%% 
+%% Copyright (C) 2005 by Kevin W. Hamlen
+%% 
+%% This file may be distributed and/or modified under the conditions of
+%% the LaTeX Project Public License, either version 1.3a of this license
+%% or (at your option) any later version.  The latest version of this
+%% license is in:
+%% 
+%%    http://www.latex-project.org/lppl.txt
+%% 
+%% and version 1.3a or later is part of all distributions of LaTeX version
+%% 2004/10/01 or later.
+%% 
+\newdimen\TRF@adjust
+\newcommand\TRF@squeeze[1]{%
+  \TRF@adjust0.5\ht#1%
+  \advance\TRF@adjust0.5\dp#1%
+  \vbox to\z@{%
+    \kern-\TRF@adjust%
+    \hb@xt@\z@{\box#1\hss}%
+    \kern-\TRF@adjust%
+  }%
+}
+\newcount\TRF@startp\TRF@startp31415926
+\newcount\TRF@endp\TRF@endp27182818
+\newcount\TRF@lastpenalty
+\newcount\TRF@level\TRF@level0
+\newif\ifTRF@derivok\TRF@derivoktrue
+\newdimen\TRF@lhang\TRF@lhang\z@
+\newdimen\TRF@rhang\TRF@rhang\z@
+\newdimen\TRF@xtrarhang
+\newdimen\TRF@lsave
+\newdimen\TRF@linewd
+\newdimen\TRF@totalwd
+\newdimen\TRF@numwd
+\newdimen\TRF@denomwd
+\newbox\TRF@numbox
+\newbox\TRF@denombox
+\newbox\TRF@eqbox
+\newdimen\TRF@abovebar
+\newdimen\TRF@belowbar
+\newcommand\TRF@trfrac[3]{\begingroup%
+  \TRF@lastpenalty\the\lastpenalty%
+  \TRF@lsave\TRF@lhang%
+  \setbox\TRF@eqbox\hbox{\TRF@derivokfalse#1}%
+  \ifdim\wd\TRF@eqbox>\z@%
+    \setbox\TRF@eqbox\hbox{\kern\p@\unhbox\TRF@eqbox}%
+  \fi%
+  \TRF@lhang\z@%
+  \advance\TRF@level\@ne%
+  \setbox\TRF@numbox\hbox{\m@th$%
+    \strut%
+    \penalty\TRF@startp%
+    #2%
+    \ifnum\the\lastpenalty=\TRF@endp\else%
+      \global\TRF@rhang\z@%
+    \fi%
+  $}%
+  \advance\TRF@level\m@ne%
+  \setbox\TRF@denombox\hbox{\m@th$%
+    \strut%
+    \TRF@derivokfalse%
+    #3%
+  $}%
+  \TRF@numwd\wd\TRF@numbox%
+  \TRF@denomwd\wd\TRF@denombox%
+  \ifdim\TRF@numwd>\z@\else%
+    \setbox\TRF@numbox\hbox{\vbox to0.5ex{\vfil}}%
+  \fi%
+  \ifdim\wd\TRF@numbox>\TRF@denomwd%
+    \TRF@totalwd\wd\TRF@numbox%
+  \else%
+    \TRF@totalwd\TRF@denomwd%
+  \fi%
+  \TRF@linewd\wd\TRF@numbox%
+  \advance\TRF@linewd-\TRF@lhang%
+  \advance\TRF@linewd-\TRF@rhang%
+  \ifdim\TRF@denomwd>\TRF@linewd%
+    \advance\TRF@linewd-\TRF@denomwd%
+    \advance\TRF@lhang0.5\TRF@linewd%
+    \global\advance\TRF@rhang0.5\TRF@linewd%
+    \ifdim\TRF@lhang<\z@\TRF@lhang\z@\fi%
+    \ifdim\TRF@rhang<\z@\global\TRF@rhang\z@\fi%
+    \TRF@linewd\TRF@denomwd%
+  \fi%
+  \ifdim\wd\TRF@eqbox>\TRF@rhang%
+    \TRF@xtrarhang\wd\TRF@eqbox%
+    \advance\TRF@xtrarhang-\TRF@rhang%
+  \else%
+    \TRF@xtrarhang\z@%
+  \fi%
+  \advance\TRF@totalwd\TRF@xtrarhang%
+  \TRF@abovebar\fontdimen8\textfont\tw@%
+  \advance\TRF@abovebar-\fontdimen22\textfont\tw@%
+  \advance\TRF@abovebar-0.5\fontdimen8\textfont\thr@@%
+  \advance\TRF@abovebar-\dp\TRF@numbox%
+  \ifdim\TRF@abovebar<3\fontdimen8\textfont\thr@@%
+    \TRF@abovebar3\fontdimen8\textfont\thr@@%
+  \fi%
+  \TRF@belowbar\fontdimen11\textfont\tw@%
+  \advance\TRF@belowbar\fontdimen22\textfont\tw@%
+  \advance\TRF@belowbar-0.5\fontdimen8\textfont\thr@@%
+  \advance\TRF@belowbar-\ht\TRF@denombox%
+  \ifdim\TRF@belowbar<3\fontdimen8\textfont\thr@@%
+    \TRF@belowbar3\fontdimen8\textfont\thr@@%
+  \fi%
+  \mathinner{%
+    \ifnum\TRF@level=0 %
+      \raise\fontdimen22\textfont\tw@\vtop%
+    \else%
+      \vbox%
+    \fi%
+    {%
+      \offinterlineskip%
+      \hbox{\vbox{%
+        \hb@xt@\TRF@totalwd{%
+          \hfil%
+          \unhbox\TRF@numbox%
+          \hfil%
+          \kern\TRF@xtrarhang%
+        }%
+        \kern\TRF@abovebar%
+        \hb@xt@\TRF@totalwd{%
+          \kern\TRF@lhang%
+          \vrule\@width\TRF@linewd%
+                \@height0.5\fontdimen8\textfont\thr@@%
+                \@depth0.5\fontdimen8\textfont\thr@@%
+          \TRF@squeeze{\TRF@eqbox}%
+          \kern\TRF@rhang%
+          \kern\TRF@xtrarhang%
+        }%
+      }}%
+      \kern\TRF@belowbar%
+      \hb@xt@\TRF@totalwd{%
+        \kern\TRF@lhang%
+        \hfil%
+        \box\TRF@denombox%
+        \hfil%
+        \kern\TRF@rhang%
+        \kern\TRF@xtrarhang%
+      }%
+    }%
+  }%
+  \ifnum\TRF@level>0 %
+    \penalty\TRF@endp%
+  \fi%
+  \global\advance\TRF@rhang\TRF@xtrarhang%
+  \ifdim\TRF@denomwd<\TRF@linewd%
+    \advance\TRF@denomwd-\TRF@linewd%
+    \advance\TRF@lhang-0.5\TRF@denomwd%
+    \global\advance\TRF@rhang-0.5\TRF@denomwd%
+  \fi%
+  \ifnum\TRF@lastpenalty=\TRF@startp%
+    \global\TRF@lhang\TRF@lhang%
+  \else%
+    \global\TRF@lhang\TRF@lsave%
+  \fi%
+\endgroup}
+\newcommand\trfrac[3][]{%
+  \ifTRF@derivok%
+    \ifmmode%
+      \TRF@trfrac{#1}{#2}{#3}%
+    \else%
+      \PackageError{trfrac}{\protect\trfrac\space%
+         only allowed in math mode}%
+        {I encountered a \protect\trfrac\space%
+         macro without first encountering a begin-math token.}%
+    \fi%
+  \else%
+    \PackageError{trfrac}{\protect\trfrac\space%
+       not allowed in the consequent of another \protect\trfrac}%
+      {\protect\trfrac\space can only appear in the premise (numerator%
+       ) of another \protect\trfrac, not in the consequent (denominator%
+       ) of a \protect\trfrac.}%
+  \fi%
+}
+\newcommand\TRF@next{}
+\newcommand\TRF@sep{\futurelet\TRF@next\TRF@@sep}
+\newcommand\TRF@@sep{%
+  \ifx[\TRF@next%
+    \let\TRF@next\TRF@separg%
+  \else%
+    \let\TRF@next\TRF@sepnoarg%
+  \fi%
+  \TRF@next%
+}
+\newcommand\TRF@separg{}
+\def\TRF@separg[#1]{\cr\noalign{\kern#1}}
+\newcommand\TRF@sepnoarg{\cr}
+\newenvironment{trgather}{%
+  \vbox\bgroup%
+    \let\\\TRF@sep%
+    \ialign\bgroup\hfil{\m@th$##$}\hfil\cr%
+}{%
+  \crcr\egroup\egroup%
+}
+\newenvironment{tralign}{%
+  \vbox\bgroup%
+    \let\\\TRF@sep%
+    \ialign\bgroup\hfil{\m@th$##\null$}&{\m@th$\null##$}\hfil\cr%
+}{%
+  \crcr\egroup\egroup%
+}
+\endinput
+%%
+%% End of file `trfrac.sty'.
