@@ -1,5 +1,5 @@
-\documentclass[11pt]{amsart}
-\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\documentclass[10pt]{report}
+\usepackage[top=3cm, bottom=2.5cm, left=3cm, right=2.5cm] {geometry}
 \geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
 %\geometry{landscape}                % Activate for for rotated page geometry
 %\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
@@ -15,17 +15,26 @@
 \usepackage{../packages/bsymb}
 \usepackage{../packages/b2latex}
 \usepackage{../packages/elogic}
+\usepackage{fancyhdr,lastpage,color}
+
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 \title{Brief Article}
 \author{The Author}
 %\date{}                                           % Activate to display a given date or no date
-
+\pagestyle{fancy}
 \begin{document}
 \maketitle
 %\section{}
 %\subsection{}
+\thispagestyle{empty}
 
+\begin{description}
 
+\BTitle{Name}{Date}{Hour}
+\MACHINE{Name}
+\END
+
+\end{description}
 
 \end{document}  
