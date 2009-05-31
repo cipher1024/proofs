@@ -5,8 +5,15 @@
 \newcounter{subproof}
 \newcounter{indent}
 \newcounter{firstbranch}
+\newcounter{openchange}
+\newcounter{openchanged}
+\setcounter{openchange}{0}
+\setcounter{openchanged}{0}
+\newcounter{usequotes}
 
+	%
 	% Proof structure
+	%
 \newcommand{\definetabs}{  
 	\setcounter{indent}{0}
 	\whiledo{\value{indent} < \value{subproof}}{
@@ -14,6 +21,8 @@
 		\addtocounter{indent}{1}
 	} 	
 	$\qquad$ \= $\qquad$ \= $\quad$ \= \kill }
+
+	% Environment for a formal derivation
 \newenvironment{deriv}
 {	\setcounter{subproof}{0}
 	\setcounter{firstbranch}{0}
@@ -21,13 +30,21 @@
 		\definetabs
 		\definetabs}
 {	\end{tabbing}}
+	% One step
 \newcommand{\step}[1]{
 	\ifthenelse{\value{firstbranch} = 1}{
 		\setcounter{firstbranch}{0}
-		\> $\bullet$ \> $#1$ \\
+		\> $\bullet$ \> $#1$
 	}{
-		\> \> $#1$ \\ } 
-	}
+		\> \> $#1$
+	} 
+	\ifthenelse{\value{openchange}=1 \OR \value{openchanged}=1}{
+		CODE QUOTATION LEFT OPEN
+		\setcounter{openchange}{0}
+		\setcounter{openchanged}{0}
+	}{} \\
+}
+	% A justification between two steps
 \newcommand{\infer}[2]{ 
 	\setcounter{indent}{0}
 	\whiledo{\value{indent} < \value{subproof}}{
@@ -35,6 +52,7 @@
 		\addtocounter{indent}{1}
 	}
 	\> $#1$ \> \>  \text{\{ #2 \}}\\ }
+	% An ad hoc derivation
 \newcommand{\sidederiv}[1]
 {	\pushtabs
 	\addtocounter{subproof}{1}
@@ -46,15 +64,50 @@
 	\poptabs
 }
 
+	%
 	% Proof anotation
-\newcommand{\changeopen}[0]{ \llcorner }
-\newcommand{\changeclose}[0]{ \lrcorner }
-\newcommand{\changedopen}[0]{ \ulcorner }
-\newcommand{\changedclose}[0]{ \urcorner }
-\newcommand{\change}[1]{ \changeopen #1 \changeclose}
-\newcommand{\changed}[1]{ \changedopen #1 \changedclose}
-\newcommand{\changeul}[3]{\changedopen #1 \changeopen #2 \changedclose #3 \changeclose}
-\newcommand{\changelu}[3]{\changeopen #1 \changedopen #2 \changeclose #3 \changedclose}
+	%
+% \newcommand{\changeopen}[0]{ \llcorner }
+% \newcommand{\changeclose}[0]{ \lrcorner }
+% \newcommand{\changedopen}[0]{ \ulcorner }
+% \newcommand{\changedclose}[0]{ \urcorner }
+% \newcommand{\change}[1]{ \changeopen #1 \changeclose}
+% \newcommand{\changed}[1]{ \changedopen #1 \changedclose}
+% \newcommand{\changeul}[3]{\changedopen #1 \changeopen #2 \changedclose #3 \changeclose}
+% \newcommand{\changelu}[3]{\changeopen #1 \changedopen #2 \changeclose #3 \changedclose}
+% \newcommand{\usequotes}{\setcounter{usequotes}{1}}
+\newcommand{\selectquotes}[2]{
+	\ifthenelse{\value{usequotes} = 0}{#1}{#2}}
+\newcommand{\changeopen}[0]{ 
+	\selectquotes{ \llcorner }{''}}
+\newcommand{\changeclose}[0]{ 
+	\selectquotes{ \lrcorner }{''}}
+\newcommand{\changedopen}[0]{ 
+	\selectquotes{ \ulcorner }{} }
+\newcommand{\changedclose}[0]{ 
+	\selectquotes{ \urcorner }{} }
+\renewcommand{\"}[0]{
+	\ifthenelse{\value{openchange} = 0}{
+		\setcounter{openchange}{1}
+		\changeopen
+	} {
+		\setcounter{openchange}{0}
+		\changeclose
+	}
+}
+\renewcommand{\*}[0]{
+	\ifthenelse{\value{openchanged} = 0}{
+		\setcounter{openchanged}{1}
+		\changedopen
+	} {
+		\setcounter{openchanged}{0}
+		\changedclose
+	}
+}
+%\newcommand{\change}[1]{ \changeopen #1 \changeclose}
+%\newcommand{\changed}[1]{ \changedopen #1 \changedclose}
+%\newcommand{\changeul}[3]{\changedopen #1 \changeopen #2 \changedclose #3 \changeclose}
+%\newcommand{\changelu}[3]{\changeopen #1 \changedopen #2 \changeclose #3 \changedclose}
 
 \newcommand{\iter}[4]{\langle\:#1\ #2\ :\ #3\ :\ #4\:\rangle}
 
