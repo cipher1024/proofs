@@ -1,0 +1,131 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{algorithmic}
+\usepackage{ifthen}
+\usepackage{elogic}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Demonstration of E-Logic proofs}
+\author{Simon Hudon}
+\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\section{Introdution}
+This is an example to demonstrate the formatting of proofs in e-logic.  For that purpose, I prove the partial correctness of a program computing the $gcd$ function.
+
+\section{Useful Properties}
+
+These are the free variables used in the discussion:
+\begin{align*}
+	x, y, m, r, q: &\mathbb{N} \\
+\end{align*}
+
+And here is the definition of $\gcd$ that we use:
+
+\begin{align}
+	& \gcd(x,y) | x \\
+	& \gcd(x,y)| y \\
+	& \iter{\forall}{m}{m|x\,\land\,m|y}{m \le \gcd(x,y)}
+\end{align}
+
+Finally, here is a couple of predicates that we use to postulate the definition of the division and modulo.
+
+\begin{align}
+	& (x = q \cdot y + r) \; \land \; (r < y) \\ 
+	& (q = x \div y) \; \land \; (r = x \mod y)
+\end{align}
+
+We use them to define $\div$ and $\mod$: $(4) \equiv (5)$.
+
+\section{Program 1}
+
+For lack of time tonight, we simply show an algorithm to compute both the quotient and the remainder of x and y.  We use formula (4) as a termination condition.  More precisely, the left conjunct is the invariant and the right conjunct is the exit condition.  At the
+
+\begin{algorithmic}
+	\STATE $r := x$
+	\STATE $q := 0$
+	\REPEAT
+		\STATE $r, q := r - y, q + 1$
+		\STATE \COMMENT {$x = q \cdot y + r$}
+	\UNTIL{$r < y$}
+\end{algorithmic}
+
+Therefore, we want to prove:
+
+\begin{equation}
+	 (x = q \cdot y + r) \; \land \; (r < y) \implies  x = (q + 1) \cdot y + (r - y)
+\end{equation}
+
+\begin{proof} 
+
+	\begin{deriv}
+		\step{\change{(q + 1) \cdot y} + (r - y)}
+			\infer{=}{Distributivity}
+		\step{\changed{q \cdot y + y} + \change{(r - y)}}
+			\infer{=}{$a-b=a+(-b)$; commutativity}
+		\step{q \cdot y + \changelu{y + }{- y}{ + r}}
+			\infer{=}{ $a+(-a) = 0$}
+		\step{q \cdot y + \changed{r}}
+			\infer{=}{Hypothesis}
+		\step{x}
+	\end{deriv}
+\end{proof}
+
+\section{Program 2}
+
+This is the gcd program.  We will use
+
+\begin{equation}
+	\gcd (x, y) = \gcd (w, z)
+\end{equation}
+
+as our invariant.  The termination condition will be $w = z$.  At that point, we use the following property
+
+\begin{equation}
+	\gcd (w, w) = w 
+\end{equation}
+
+To prove that property, we can use the following definition of the 'divides' operator:
+
+\begin{equation}
+	a|b \ \equiv \ \iter{\exists}{c}{}{c \cdot a = b}
+\end{equation}
+
+\begin{proof} of (8)
+	\begin{deriv}
+		\step{\gcd(w,w) = w}
+			\infer{\equiv}{Definition of $\gcd$} 
+		\step{\change{    w|w \, \land \, w|w  } \, \land \, 
+				\iter{\forall}{m}{m|w \, \land \, m|w}{m \le \gcd (w,w)}}
+			\infer{\equiv}{Idempotency of $\land$}
+		\step{\changed{    w|w  } \, \land \, 
+				\change{    \iter{\forall}{m}{m|w \, \land \, m|w}{m \le \gcd (w,w)}    }}
+			\infer{\equiv}{Trading}
+		\step{\change{  w|w  } \, \land \, 
+				\changed{    \iter{\forall}{m}{}{\change{   m|w \, \land \, m|w \implies m \le \gcd (w,w)}    }}}
+			\infer{\equiv}{Leibniz twice}
+		\sidederiv{
+			\step{a}
+				\infer{\equiv}{Definition of $|$}
+			\step{
+				\iter{\exists}{c}{}{c \cdot a = b}
+			}
+		}
+	\end{deriv}
+\end{proof}
+
+
+\begin{algorithmic}
+	\STATE $w, z := x, y$
+	
+\end{algorithmic}
+
+\end{document}  

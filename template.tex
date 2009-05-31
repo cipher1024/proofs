@@ -1,0 +1,31 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+
+	% NOTE: It seems strategic to set the proofs repository as a submodule of any repository making
+	% 	use of it.  For articles `some_article' and `other_article' it seems sensible to put the directories
+	%	`some_article', `other_article' and `packages' (which contains proofs as a submodule) side by
+	%	side.
+	% (END OF NOTE)
+\usepackage{../packages/bsymb}
+\usepackage{../packages/b2latex}
+\usepackage{../packages/elogic}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Brief Article}
+\author{The Author}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+%\subsection{}
+
+
+
+\end{document}  
