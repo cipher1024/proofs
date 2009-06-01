@@ -28,17 +28,22 @@
 	\setcounter{firstbranch}{0}
 	\begin{tabbing}
 		\definetabs
-		\definetabs}
-{	\end{tabbing}}
+		\definetabs
+}{	
+	\end{tabbing}
+}
 	% One step
-\newcommand{\step}[1]{
-	\ifthenelse{\value{firstbranch} = 1}{
+\newcommand{\step}[1]
+{
+	\ifthenelse{\value{firstbranch} = 1}
+	{
 		\setcounter{firstbranch}{0}
 		\> $\bullet$ \> $#1$
 	}{
 		\> \> $#1$
 	} 
-	\ifthenelse{\value{openchange}=1 \OR \value{openchanged}=1}{
+	\ifthenelse{\value{openchange}=1 \OR \value{openchanged}=1}
+	{
 		CODE QUOTATION LEFT OPEN
 		\setcounter{openchange}{0}
 		\setcounter{openchanged}{0}
@@ -46,12 +51,8 @@
 }
 	% A justification between two steps
 \newcommand{\infer}[2]{ 
-	\setcounter{indent}{0}
-	\whiledo{\value{indent} < \value{subproof}}{
-		\quad
-		\addtocounter{indent}{1}
-	}
-	\> $#1$ \> \>  \text{\{ #2 \}}\\ }
+	\> $#1$ \> \> \{   #2   \} \\ 
+}
 	% An ad hoc derivation
 \newcommand{\sidederiv}[1]
 {	\pushtabs

@@ -67,13 +67,13 @@ Therefore, we want to prove:
 \begin{proof} 
 
 	\begin{deriv}
-		\step{\change{(q + 1) \cdot y} + (r - y)}
+		\step{\"(q + 1) \cdot y\" + (r - y)}
 			\infer{=}{Distributivity}
-		\step{\changed{q \cdot y + y} + \change{(r - y)}}
+		\step{\*q \cdot y + y \* +  \" (r - y) \" }
 			\infer{=}{$a-b=a+(-b)$; commutativity}
-		\step{q \cdot y + \changelu{y + }{- y}{ + r}}
+		\step{q \cdot y + \" y + \*- y \" + r \* }
 			\infer{=}{ $a+(-a) = 0$}
-		\step{q \cdot y + \changed{r}}
+		\step{q \cdot y + \* r \*}
 			\infer{=}{Hypothesis}
 		\step{x}
 	\end{deriv}
@@ -103,14 +103,14 @@ To prove that property, we can use the following definition of the 'divides' ope
 	\begin{deriv}
 		\step{\gcd(w,w) = w}
 			\infer{\equiv}{Definition of $\gcd$} 
-		\step{\change{    w|w \, \land \, w|w  } \, \land \, 
+		\step{  \"    w|w \, \land \, w|w  \" \, \land \, 
 				\iter{\forall}{m}{m|w \, \land \, m|w}{m \le \gcd (w,w)}}
 			\infer{\equiv}{Idempotency of $\land$}
-		\step{\changed{    w|w  } \, \land \, 
-				\change{    \iter{\forall}{m}{m|w \, \land \, m|w}{m \le \gcd (w,w)}    }}
+		\step{ \*    w|w  \*  \, \land \, 
+				\"    \iter{\forall}{m}{m|w \, \land \, m|w}{m \le \gcd (w,w)}   \"  }
 			\infer{\equiv}{Trading}
-		\step{\change{  w|w  } \, \land \, 
-				\changed{    \iter{\forall}{m}{}{\change{   m|w \, \land \, m|w \implies m \le \gcd (w,w)}    }}}
+		\step{ \"  w|w  \" \, \land \, 
+				\*    \iter{\forall}{m}{}{ \"   m|w \, \land \, m|w \implies m \le \gcd (w,w)}    \" \* }
 			\infer{\equiv}{Leibniz twice}
 		\sidederiv{
 			\step{a}
