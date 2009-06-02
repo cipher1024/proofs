@@ -21,7 +21,7 @@
 \setcounter{openchange}{0}
 \setcounter{openchanged}{0}
 \newcounter{usequotes}
-
+\newlength{\stepspacing}
 	%
 	% Proof structure
 	%
@@ -34,9 +34,11 @@
 	$\qquad$ \= $\qquad$ \= $\quad$ \= $\qquad$ \= \kill }
 
 	% Environment for a formal derivation
-\newenvironment{deriv}
-{	\setcounter{subproof}{0}
+\newenvironment{deriv}[1][2mm]
+{
+	\setcounter{subproof}{0}
 	\setcounter{firstbranch}{0}
+	\setlength{\stepspacing}{#1}
 	\begin{tabbing}
 		\definetabs
 }{	
@@ -57,40 +59,46 @@
 		CODE QUOTATION LEFT OPEN
 		\setcounter{openchange}{0}
 		\setcounter{openchanged}{0}
-	}{} \\
+	}{}
 }
 	% A justification between two steps
-\newcommand{\infer}[2]{ 
-	\> \nospace{$#1$} \> \> \{   #2   \} \\ 
+\newlength{\mymy}
+\newcommand{\hint}[2]{
+	\settowidth{\mymy}{#2} $\ifthenelse{\lengthtest{#1 < \mymy}}{
+		\setlength{\mymy}{#1}
+	}{}
+	\left \{\quad \parbox{\mymy}{   #2   }\quad \right \}$
+}	
+\newcommand{\infer}[3][2in]{ 
+	\\[\stepspacing]  \> $\nospace{#2}$ \> \>  \hint{#1}{#3}  \\[\stepspacing]
 }
 	% Concluding note of a derivation
 \newcommand{\note}[1]{
-	\> \> \> \> -- #1 -- \\
+	$\qquad \qquad$ -- #1 -- 
 }
 	% An ad hoc derivation
 \newcommand{\sidederiv}[1]
-{	\pushtabs
-	\addtocounter{subproof}{1}
+{	\addtocounter{subproof}{1}
 	\setcounter{firstbranch}{1}
 	\definetabs
 	#1
 	\setcounter{firstbranch}{1}
 	\addtocounter{subproof}{-1}
-	\poptabs
+	\definetabs
 }
 	% Add an assumption
 \newcommand{\assume}[2]
 {
-	\> \> \textbf{assume} \\
-	\> \> \> $#1$ \\
-	\> \> \textbf{in} \\
+	\> \textbf{assume} \\[\stepspacing]
+	\> \> $#1$ \\
+	\> \textbf{in} \\[\stepspacing]
 	\addtocounter{subproof}{1}
-	\pushtabs
 	\definetabs
 	#2
-	\poptabs
-	\>  \> \textbf{end} \\
+	\\[\stepspacing]
 	\addtocounter{subproof}{-1}
+	\definetabs
+	\>  \textbf{end} \\[\stepspacing]
 }
 
 	%

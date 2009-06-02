@@ -101,30 +101,29 @@ To prove that property, we can use the following definition of the 'divides' ope
 
 \begin{proof} of (8)
 	\begin{deriv}
-		\step{\gcd(w,w) = w}
-			\infer{\equiv}{Definition of $\gcd$} 
-		\step{  \"    w|w  \land  w|w  \"  \land  
-				\iter{\forall}{m}{  \" m|w  \land  m|w \"  }{m \le w}}
-			\infer{\equiv}{Idempotency of $\land$ twice }
-		\step{ \*    w|w  \*   \land 
-				\"    \iter{\forall}{m}{ \* m|w \* }{m \le w}   \"  }
-			\infer{\equiv}{Trading}
-		\step{ \"  w|w  \"  \land  
-				\*    \iter{\forall}{m}{}{ m|w \implies m \le w}     \* }
-			\infer{\equiv}{Leibniz }
+		\assume{ w \neq 0 }{
+			\step{\gcd(w,w) = w}
+				\infer{\equiv}{Definition of $\gcd$} 
+			\step{  \"    w|w  \land  w|w  \"  \land  \iter{\forall}{m}{  \" m|w  \land  m|w \"  }{m \le w}}
+				\infer{\equiv}{Idempotency of $\land$ twice }
+			\step{ \*    w|w  \*   \land  \"    \iter{\forall}{m}{ \* m|w \* }{m \le w}   \"  }
+				\infer{\equiv}{Trading}
+			\step{ \"  w|w  \"  \land  \*    \iter{\forall}{m}{}{ m|w \implies m \le w}     \* }
+				\infer{\equiv}{Leibniz }
+			\sidederiv
+			{
 				\assume{x > 3}
-						{
-							\sidederiv
-							{
-								\step{  w|w  }
-									\infer{\equiv}{(\ref{divdef})}
-								\step{  \iter{\exists}{c}{}{ c \cdot w = w }  }
-									\infer{\implied}{$\exists$ instanciation}
-								\step{  1 \cdot w = w  }
-									\note{Identity of $\cdot$}
-							}
-						}
+				{
+					\step{  w|w  }
+						\infer{\equiv}{(\ref{divdef})}
+					\step{  \iter{\exists}{c}{}{ c \cdot w = w }  }
+						\infer{\implied}{   $\exists$ instantiation \\ (sometimes)   }
+					\step{  1 \cdot w = w  }
+						\note{Identity of $\cdot$}
+				}
+			}
 			\step{ \iter{\forall}{m}{}{    m|w \implies m \le w}  }
+		}		
 	\end{deriv}
 \end{proof}
 
