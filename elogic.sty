@@ -2,6 +2,17 @@
 
 \RequirePackage{ifthen}
 
+\newboolean{dijkstra_quant} 
+		% Dijkstra or Gries style quantification?
+		% Dijkstra < A i: 0 ² i < n: E >
+		% Gries < A i | 0 ² i < n: E >
+
+\newboolean{parenth_quant}
+		% Enclose quantification with angular brackets or parentheses?
+
+\DeclareOption{dijkstra_quant}{\setboolean{dijkstra_quant}{false}}
+\DeclareOption{parenth_quant}{\setboolean{parenth_quant}{false}}
+
 \newcounter{subproof}
 \newcounter{indent}
 \newcounter{firstbranch}
@@ -20,14 +31,13 @@
 		$\quad$
 		\addtocounter{indent}{1}
 	} 	
-	$\qquad$ \= $\qquad$ \= $\quad$ \= \kill }
+	$\qquad$ \= $\qquad$ \= $\quad$ \= $\qquad$ \= \kill }
 
 	% Environment for a formal derivation
 \newenvironment{deriv}
 {	\setcounter{subproof}{0}
 	\setcounter{firstbranch}{0}
 	\begin{tabbing}
-		\definetabs
 		\definetabs
 }{	
 	\end{tabbing}
@@ -51,7 +61,11 @@
 }
 	% A justification between two steps
 \newcommand{\infer}[2]{ 
-	\> $#1$ \> \> \{   #2   \} \\ 
+	\> \nospace{$#1$} \> \> \{   #2   \} \\ 
+}
+	% Concluding note of a derivation
+\newcommand{\note}[1]{
+	\> \> \> \> -- #1 -- \\
 }
 	% An ad hoc derivation
 \newcommand{\sidederiv}[1]
@@ -64,19 +78,24 @@
 	\addtocounter{subproof}{-1}
 	\poptabs
 }
+	% Add an assumption
+\newcommand{\assume}[2]
+{
+	\> \> \textbf{assume} \\
+	\> \> \> $#1$ \\
+	\> \> \textbf{in} \\
+	\addtocounter{subproof}{1}
+	\pushtabs
+	\definetabs
+	#2
+	\poptabs
+	\>  \> \textbf{end} \\
+	\addtocounter{subproof}{-1}
+}
 
 	%
 	% Proof anotation
 	%
-% \newcommand{\changeopen}[0]{ \llcorner }
-% \newcommand{\changeclose}[0]{ \lrcorner }
-% \newcommand{\changedopen}[0]{ \ulcorner }
-% \newcommand{\changedclose}[0]{ \urcorner }
-% \newcommand{\change}[1]{ \changeopen #1 \changeclose}
-% \newcommand{\changed}[1]{ \changedopen #1 \changedclose}
-% \newcommand{\changeul}[3]{\changedopen #1 \changeopen #2 \changedclose #3 \changeclose}
-% \newcommand{\changelu}[3]{\changeopen #1 \changedopen #2 \changeclose #3 \changedclose}
-% \newcommand{\usequotes}{\setcounter{usequotes}{1}}
 \newcommand{\selectquotes}[2]{
 	\ifthenelse{\value{usequotes} = 0}{#1}{#2}}
 \newcommand{\changeopen}[0]{ 
@@ -105,10 +124,46 @@
 		\changedclose
 	}
 }
-%\newcommand{\change}[1]{ \changeopen #1 \changeclose}
-%\newcommand{\changed}[1]{ \changedopen #1 \changedclose}
-%\newcommand{\changeul}[3]{\changedopen #1 \changeopen #2 \changedclose #3 \changeclose}
-%\newcommand{\changelu}[3]{\changeopen #1 \changedopen #2 \changeclose #3 \changedclose}
 
-\newcommand{\iter}[4]{\langle\:#1\ #2\ :\ #3\ :\ #4\:\rangle}
-
+	%
+	% Operators of propositional and predicate logic
+	%
+\newboolean{usespace}
+\setboolean{usespace}{true}
+\newcommand{\nospace}[1]{ 
+	\setboolean{usespace}{false} 
+	#1 
+	\setboolean{usespace}{true} 
+}
+\newcommand{\opspace}[2]{
+	\ifthenelse{\boolean{usespace}}
+	{
+		\hspace{#1 mm}
+		#2
+		\hspace{#1 mm}
+	}{
+		#2
+	}
+}
+\ifthenelse{\boolean{parenth_quant}}
+{
+	\newcommand{\openquant}{(}
+	\newcommand{\closequant}{)}
+}{
+	\newcommand{\openquant}{\langle}
+	\newcommand{\closequant}{\rangle}
+}
+\ifthenelse{\boolean{dijkstra_quant}}
+{
+	\newcommand{\iter}[4]{\openquant\:#1\ #2 :\ #3 :\ #4\:\closequant}
+}{
+	\newcommand{\iter}[4]{\openquant\:#1\ #2\ |\ #3 :\ #4\:\closequant}
+}
+\let\Oldland\land
+	\renewcommand{\land}{ \opspace{1}{\Oldland} }
+\let\OldLor\lor
+	\renewcommand{\lor}{ \opspace{1}{\Oldlor} }
+\renewcommand{\implies}{ \opspace{2}{\Rightarrow} }
+\newcommand{\implied}{ \opspace{2}{\Leftarrow} }
+\let\Oldequiv\equiv
+	\renewcommand{\equiv}{ \opspace{3}{\Oldequiv}}

@@ -33,7 +33,7 @@ And here is the definition of $\gcd$ that we use:
 \begin{align}
 	& \gcd(x,y) | x \\
 	& \gcd(x,y)| y \\
-	& \iter{\forall}{m}{m|x\,\land\,m|y}{m \le \gcd(x,y)}
+	& \iter{\forall}{m}{m|x \land m|y}{m \le \gcd(x,y)}
 \end{align}
 
 Finally, here is a couple of predicates that we use to postulate the definition of the division and modulo.
@@ -84,41 +84,47 @@ Therefore, we want to prove:
 This is the gcd program.  We will use
 
 \begin{equation}
-	\gcd (x, y) = \gcd (w, z)
+	\gcd (x, y) = \gcd (w, z) \label{inv0}
 \end{equation}
 
 as our invariant.  The termination condition will be $w = z$.  At that point, we use the following property
 
 \begin{equation}
-	\gcd (w, w) = w 
+	\gcd (w, w) = w \label{gcdref}
 \end{equation}
 
 To prove that property, we can use the following definition of the 'divides' operator:
 
 \begin{equation}
-	a|b \ \equiv \ \iter{\exists}{c}{}{c \cdot a = b}
+	a|b \equiv \iter{\exists}{c}{}{c \cdot a = b} \label{divdef}
 \end{equation}
 
 \begin{proof} of (8)
 	\begin{deriv}
 		\step{\gcd(w,w) = w}
 			\infer{\equiv}{Definition of $\gcd$} 
-		\step{  \"    w|w \, \land \, w|w  \" \, \land \, 
-				\iter{\forall}{m}{m|w \, \land \, m|w}{m \le \gcd (w,w)}}
-			\infer{\equiv}{Idempotency of $\land$}
-		\step{ \*    w|w  \*  \, \land \, 
-				\"    \iter{\forall}{m}{m|w \, \land \, m|w}{m \le \gcd (w,w)}   \"  }
+		\step{  \"    w|w  \land  w|w  \"  \land  
+				\iter{\forall}{m}{  \" m|w  \land  m|w \"  }{m \le w}}
+			\infer{\equiv}{Idempotency of $\land$ twice }
+		\step{ \*    w|w  \*   \land 
+				\"    \iter{\forall}{m}{ \* m|w \* }{m \le w}   \"  }
 			\infer{\equiv}{Trading}
-		\step{ \"  w|w  \" \, \land \, 
-				\*    \iter{\forall}{m}{}{ \"   m|w \, \land \, m|w \implies m \le \gcd (w,w)}    \" \* }
-			\infer{\equiv}{Leibniz twice}
-		\sidederiv{
-			\step{a}
-				\infer{\equiv}{Definition of $|$}
-			\step{
-				\iter{\exists}{c}{}{c \cdot a = b}
-			}
-		}
+		\step{ \"  w|w  \"  \land  
+				\*    \iter{\forall}{m}{}{ m|w \implies m \le w}     \* }
+			\infer{\equiv}{Leibniz }
+				\assume{x > 3}
+						{
+							\sidederiv
+							{
+								\step{  w|w  }
+									\infer{\equiv}{(\ref{divdef})}
+								\step{  \iter{\exists}{c}{}{ c \cdot w = w }  }
+									\infer{\implied}{$\exists$ instanciation}
+								\step{  1 \cdot w = w  }
+									\note{Identity of $\cdot$}
+							}
+						}
+			\step{ \iter{\forall}{m}{}{    m|w \implies m \le w}  }
 	\end{deriv}
 \end{proof}
 
