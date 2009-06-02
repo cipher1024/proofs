@@ -115,7 +115,7 @@
 \newcommand{\changedclose}[0]{ 
 	\selectquotes{ \urcorner }{} }
 \renewcommand{\"}[0]{
-	\ifthenelse{\value{openchange} = 0}{
+	\ifthenelse{\value{openchange} = 0} {
 		\setcounter{openchange}{1}
 		\changeopen
 	} {
@@ -124,7 +124,7 @@
 	}
 }
 \renewcommand{\*}[0]{
-	\ifthenelse{\value{openchanged} = 0}{
+	\ifthenelse{\value{openchanged} = 0} {
 		\setcounter{openchanged}{1}
 		\changedopen
 	} {
@@ -171,7 +171,11 @@
 	\renewcommand{\land}{ \opspace{1}{\Oldland} }
 \let\OldLor\lor
 	\renewcommand{\lor}{ \opspace{1}{\Oldlor} }
-\renewcommand{\implies}{ \opspace{2}{\Rightarrow} }
+\ifthenelse{\isundefined{\implies}} {
+	\newcommand{\implies}{ \opspace{2}{\Rightarrow} }
+} {
+	\renewcommand{\implies}{ \opspace{2}{\Rightarrow} }
+}
 \newcommand{\implied}{ \opspace{2}{\Leftarrow} }
 \let\Oldequiv\equiv
 	\renewcommand{\equiv}{ \opspace{3}{\Oldequiv}}
