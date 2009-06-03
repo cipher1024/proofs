@@ -65,7 +65,6 @@ Therefore, we want to prove:
 \end{equation}
 
 \begin{proof} 
-
 	\begin{deriv}
 		\step{\"(q + 1) \cdot y\" + (r - y)}
 			\infer{=}{Distributivity}
@@ -98,32 +97,36 @@ To prove that property, we can use the following definition of the 'divides' ope
 \begin{equation}
 	a|b \equiv \iter{\exists}{c}{}{c \cdot a = b} \label{divdef}
 \end{equation}
-
+\pagebreak
 \begin{proof} of (8)
 	\begin{deriv}
-		\assume{ w \neq 0 }{
-			\step{\gcd(w,w) = w}
-				\infer{\equiv}{Definition of $\gcd$} 
-			\step{  \"    w|w  \land  w|w  \"  \land  \iter{\forall}{m}{  \" m|w  \land  m|w \"  }{m \le w}}
-				\infer{\equiv}{Idempotency of $\land$ twice }
-			\step{ \*    w|w  \*   \land  \"    \iter{\forall}{m}{ \* m|w \* }{m \le w}   \"  }
-				\infer{\equiv}{Trading}
-			\step{ \"  w|w  \"  \land  \*    \iter{\forall}{m}{}{ m|w \implies m \le w}     \* }
-				\infer{\equiv}{Leibniz }
-			\sidederiv
-			{
-				\assume{x > 3}
-				{
-					\step{  w|w  }
-						\infer{\equiv}{(\ref{divdef})}
-					\step{  \iter{\exists}{c}{}{ c \cdot w = w }  }
-						\infer{\implied}{   $\exists$ instantiation \\ (sometimes)   }
-					\step{  1 \cdot w = w  }
-						\note{Identity of $\cdot$}
-				}
-			}
-			\step{ \iter{\forall}{m}{}{    m|w \implies m \le w}  }
-		}		
+		\assume{ w \neq 0 }
+		\step{\gcd(w,w) = w}
+			\infer{\equiv}{Definition of $\gcd$} 
+		\step{  \"    w|w  \land  w|w  \"  \land  \iter{\forall}{m}{  \" m|w  \land  m|w \"  }{m \le w}}
+			\infer{\equiv}{Idempotency of $\land$ twice }
+		\step{ \*    w|w  \*   \land  \"    \iter{\forall}{m}{ \* m|w \* }{m \le w}   \"  }
+			\infer{\equiv}{Trading}
+		\step{ \"  w|w  \"  \land  \*    \iter{\forall}{m}{}{ m|w \implies m \le w}     \* }
+			\infer{\equiv}{Leibniz }
+		\sidederiv
+		{
+			\assume{x > 3}
+%			\assume{x < 3}
+			\step{  w|w  }
+				\infer{\equiv}{(\ref{divdef})}
+			\step{  \iter{\exists}{c}{}{ c \cdot w = w }  }
+				\infer[1in]{\implied}{   $\exists$ instantiation \newline 
+									(multiline)   }
+								% In the hint of the inference, a \newline will separate
+								% two parts nicely but \\ will break everything up.
+								% Beware!
+			\step{  1 \cdot w = w  }
+				\note{Identity of $\cdot$}
+		}
+		\step{ \iter{\forall}{m}{}{    m|w \implies m \le w}  }
+			\infer{\equiv}{For no reasons, some set}
+		\step{ \setcomp{x, y}{x \le z \land y \le z}{ (x, y) } \neq \emptyset }
 	\end{deriv}
 \end{proof}
 

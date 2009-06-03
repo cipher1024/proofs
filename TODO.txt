@@ -1,2 +1,4 @@
-o Assumptions
+o Assumptions (done)
 o Summaries
+o numbering side derivations
+o refering to assumptions and side derivations
