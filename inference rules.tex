@@ -98,10 +98,25 @@
 \begin{equation}
 \trfrac[\small(\emph{$\land E$})]
 		{
-			\Gamma \vdash A \land B \qquad
+			\Gamma \vdash A \land B
 		}
 		{\Gamma \vdash B}
 \end{equation}
 
+\begin{equation}
+\trfrac[\small(\emph{$\equiv hyp$})]
+		{
+			\Gamma, A \vdash A \equiv B
+		}
+		{\Gamma, A \vdash B}
+\end{equation}
+
+\begin{equation}
+\trfrac[\small(\emph{$\implied hyp$})]
+		{
+			\Gamma, A \vdash A \implies B
+		}
+		{\Gamma, A \vdash B}
+\end{equation}
 
 \end{document}  
