@@ -12,56 +12,91 @@
 % Defined colors.
 %-------------------------------------------------------------------
 \usepackage{color}
+\RequirePackage{ifthen}
 \definecolor{keycolor}{rgb}{0,0,0.7}  %color of key words, blue is the default
 \definecolor{labelcolor}{rgb}{0,0.4,0.8}  %color of labels, cyan
 \definecolor{codecolor}{rgb}{0,0.2,0}  %color of formulas, black
 \definecolor{xcodecolor}{rgb}{0,0,0}  %color of extended formulas, black
 \definecolor{cmtcolor}{rgb}{0,0,0}  %color of comments, black
+\newboolean{@insection}
+\newboolean{@inaction}
 %-------------------------------------------------------------------
 % Special commands for MACHINE 
 %-------------------------------------------------------------------
-\newcommand{\MACHINE}[1] { \item[\textcolor{keycolor}{MACHINE }] #1 \hspace*{\fill}}
+\newcommand{\changesection}[1]
+{
+	\ifthenelse{\boolean{@insection}}{ \end{description}} {}
+	#1 \setboolean{@insection}{true}
+	\begin{description}
+}
+\newcommand{\actionsection}[1]
+{
+	\ifthenelse{\boolean{@inaction}}{ \end{description}} {}
+	#1 \setboolean{@inaction}{true}
+	\begin{description}
+}
 
-\newcommand{\REFINES}[1]{ \item[\textcolor{keycolor}{REFINES }] #1 \hspace*{\fill} }
+\newcommand{\MACHINE}[1] 
+	{ \changesection{ \item[\textcolor{keycolor}{MACHINE }] #1 \hspace*{\fill} } }
 
-\newcommand{\SEES}[1]{ \item[\textcolor{keycolor}{SEES }] #1 \hspace*{\fill} }
+\newcommand{\REFINES}[1]
+	{ \changesection{ \item[\textcolor{keycolor}{REFINES }] #1 \hspace*{\fill} } }
 
-\newcommand{\VARIABLES}{\item[\textcolor{keycolor}{VARIABLES}] \hspace*{\fill}}
+\newcommand{\SEES}[1]
+	{ \changesection{ \item[\textcolor{keycolor}{SEES }] #1 \hspace*{\fill} } }
 
-\newcommand{\INVARIANTS}{  \item[\textcolor{keycolor}{INVARIANTS}] \hspace*{\fill} }
+\newcommand{\VARIABLES}
+	{ \changesection{ \item[\textcolor{keycolor}{VARIABLES}] \hspace*{\fill} } }
 
-\newcommand{\VARIANT}{ \item[\textcolor{keycolor}{VARIANT}] \hspace*{\fill} }
+\newcommand{\INVARIANTS}
+	{  \changesection{ \item[\textcolor{keycolor}{INVARIANTS}] \hspace*{\fill} } }
 
-\newcommand{\EVENTS}{  \item[\textcolor{keycolor}{EVENTS}] \hspace*{\fill} }
+\newcommand{\VARIANT}
+	{ \changesection{ \item[\textcolor{keycolor}{VARIANT}] \hspace*{\fill} } }
 
-\newcommand{\INITIALISATION}{  \item[\textcolor{keycolor}{Initialisation}] \hspace*{\fill} }
+\newcommand{\EVENTS}
+	{  \changesection{ \item[\textcolor{keycolor}{EVENTS}] \hspace*{\fill} } }
 
-\newcommand{\DUMMIES}{  \item[\textcolor{keycolor}{DUMMIES}] \hspace*{\fill} }
+\newcommand{\INITIALISATION}
+	{  \changesection{ \item[\textcolor{keycolor}{Initialisation}] \hspace*{\fill} }
+	 	\begin{description} }
 
-\newcommand{\EVT}[1]{  \item[\textcolor{keycolor}{Event }] \textit{#1} $\defi$ \hspace*{\fill} } % opt1
+\newcommand{\DUMMIES}
+	{  \changesection{ \item[\textcolor{keycolor}{DUMMIES}] \hspace*{\fill} } }
+
+%\newcommand{\EVT}[1]{  
+%	\item[\textcolor{keycolor}{Event }] \textit{#1} $\defi$ \hspace*{\fill} 
+%	\begin{description}} % opt1
 % Option: deactivate above command and reactivate 
 % the command below to display only event name
-%\newcommand{\EVT}[1]{  \item[\textit{#1}] $\defi$ \hspace*{\fill} } % opt2
+\newcommand{\EVT}[1]{  
+	\item[\textit{#1}] $\defi$ \hspace*{\fill}
+	\begin{description}} % opt2
 
-\newcommand{\REF}[1]{ \item[\textcolor{keycolor}{refines}] \textit{#1} \hspace*{\fill} }
+\newcommand{\REF}[1]{ \actionsection{ \item[\textcolor{keycolor}{refines}] \textit{#1} \hspace*{\fill} } }
 
-\newcommand{\EXTD}[1]{ \item[\textcolor{keycolor}{extends}] \textit{#1} \hspace*{\fill} }
+\newcommand{\EXTD}[1]{ \actionsection{ \item[\textcolor{keycolor}{extends}] \textit{#1} \hspace*{\fill} } }
 
-\newcommand{\Status}[1]{ \item[\textcolor{keycolor}{Status}] #1 \hspace*{\fill} }
+\newcommand{\Status}[1]{ \actionsection{ \item[\textcolor{keycolor}{Status}] #1 \hspace*{\fill} } }
 
-\newcommand{\AnyPrm}{ \item[\textcolor{keycolor}{any}] \hspace*{\fill} }
+\newcommand{\AnyPrm}{ \actionsection{ \item[\textcolor{keycolor}{any}] \hspace*{\fill} } }
 
-\newcommand{\WhereGrd}{ \item[\textcolor{keycolor}{where}] \hspace*{\fill} }
+\newcommand{\WhereGrd}{ \actionsection{ \item[\textcolor{keycolor}{where}] \hspace*{\fill} } }
 
-\newcommand{\WhenGrd}{ \item[\textcolor{keycolor}{when}] \hspace*{\fill} }
+\newcommand{\WhenGrd}{ \actionsection{ \item[\textcolor{keycolor}{when}] \hspace*{\fill} } }
 
-\newcommand{\Witnesses}{ \item[\textcolor{keycolor}{with}] \hspace*{\fill} }
+\newcommand{\Witnesses}{ \actionsection{ \item[\textcolor{keycolor}{with}] \hspace*{\fill} } }
 
-\newcommand{\ThenAct}{ \item[\textcolor{keycolor}{then}] \hspace*{\fill} }
+\newcommand{\ThenAct}{ \actionsection{ \item[\textcolor{keycolor}{then}] \hspace*{\fill} } }
 
-\newcommand{\BeginAct}{ \item[\textcolor{keycolor}{begin}] \hspace*{\fill} }
+\newcommand{\BeginAct}{ \actionsection{ \item[\textcolor{keycolor}{begin}] \hspace*{\fill} } }
 
-\newcommand{\EndAct}{ \item[\textcolor{keycolor}{end}] \hspace*{\fill} }
+\newcommand{\EndAct}{ \ifthenelse{\boolean{@insection}}
+	{
+		\end{description}}{} 
+		\item[\textcolor{keycolor}{end}] \hspace*{\fill} 
+		\end{description}
+	}
 
 %-------------------------------------------------------------------
 % Special commands for CONTEXT 
@@ -91,7 +126,14 @@
 \\Generated Date: #2 @ #3\\}}}]
 }
 % End of MACHINE or CONTEXT
-\newcommand{\END}{ \item[\textcolor{keycolor}{END}] \hspace*{\fill} }
+\newcommand{\END}
+{
+	\ifthenelse{\boolean{@insection}}
+	{
+		\end{description} \setboolean{@insection}{false}
+	}{}  
+	\item[\textcolor{keycolor}{END}] \hspace*{\fill} 
+}
 
 % Printing non-labelled elements
 % (i.e. variables, sets and constants)
