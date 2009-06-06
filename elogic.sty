@@ -4,8 +4,8 @@
 
 \newboolean{dijkstra_quant} 
 		% Dijkstra or Gries style quantification?
-		% Dijkstra < A i: 0 ² i < n: E >
-		% Gries < A i | 0 ² i < n: E >
+		% Dijkstra < A i: 0 <= i < n: E >
+		% Gries < A i | 0 <= i < n: E >
 
 \newboolean{parenth_quant}
 		% Enclose quantification with angular brackets or parentheses?
@@ -41,7 +41,7 @@
 	\setlength{\stepspacing}{#1}
 	\begin{tabbing}
 		\definetabs
-}{	
+} {
 	\end{tabbing}
 }
 	% One step
@@ -163,15 +163,21 @@
 }
 \ifthenelse{\boolean{dijkstra_quant}}
 {
-	\newcommand{\iter}[4]{\openquant\:#1\ #2 :\ #3 :\ #4\:\closequant}
+	\newcommand{\quantsep}{:}
 }{
-	\newcommand{\iter}[4]{\openquant\:#1\ #2\ |\ #3 :\ #4\:\closequant}
+	\newcommand{\quantsep}{|}
 }
+
+\newcommand{\iter}[4]{\openquant\:#1\ #2 \quantsep \ #3 :\ #4\:\closequant}
+\newcommand{\setcomp}[3]{ \{ \: #1 \quantsep \: #2 : \ #3 \: \} } 
+
+
 \let\Oldland\land
 	\renewcommand{\land}{ \opspace{1}{\Oldland} }
-\let\OldLor\lor
+\let\Oldlor\lor
 	\renewcommand{\lor}{ \opspace{1}{\Oldlor} }
-\ifthenelse{\isundefined{\implies}} {
+\ifthenelse{\isundefined{\implies}}
+{
 	\newcommand{\implies}{ \opspace{2}{\Rightarrow} }
 } {
 	\renewcommand{\implies}{ \opspace{2}{\Rightarrow} }
