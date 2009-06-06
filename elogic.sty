@@ -39,7 +39,7 @@
 	\setcounter{firstbranch}{0}
 	\begin{tabbing}
 		\definetabs
-}{	
+} {
 	\end{tabbing}
 }
 	% One step
@@ -155,15 +155,25 @@
 }
 \ifthenelse{\boolean{dijkstra_quant}}
 {
-	\newcommand{\iter}[4]{\openquant\:#1\ #2 :\ #3 :\ #4\:\closequant}
+	\newcommand{\quantsep}{:}
 }{
-	\newcommand{\iter}[4]{\openquant\:#1\ #2\ |\ #3 :\ #4\:\closequant}
+	\newcommand{\quantsep}{|}
 }
+
+\newcommand{\iter}[4]{\openquant\:#1\ #2 \quantsep \ #3 :\ #4\:\closequant}
+\newcommand{\setcomp}[3]{ \{ \: #1 \quantsep \: #2 : \ #3 \: \} } 
+
+
 \let\Oldland\land
-	\renewcommand{\land}{ \opspace{1}{\Oldland} }
+%	\renewcommand{\land}{ \opspace{1}{\Oldland} }
 \let\OldLor\lor
-	\renewcommand{\lor}{ \opspace{1}{\Oldlor} }
-\renewcommand{\implies}{ \opspace{2}{\Rightarrow} }
+%	\renewcommand{\lor}{ \opspace{1}{\Oldlor} }
+\ifthenelse{\isundefined{\implies}}
+{
+	\newcommand{\implies}{ \opspace{2}{\Rightarrow} }
+} {
+	\renewcommand{\implies}{ \opspace{2}{\Rightarrow} }
+}
 \newcommand{\implied}{ \opspace{2}{\Leftarrow} }
 \let\Oldequiv\equiv
 	\renewcommand{\equiv}{ \opspace{3}{\Oldequiv}}
