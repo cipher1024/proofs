@@ -4,8 +4,8 @@
 
 \newboolean{dijkstra_quant} 
 		% Dijkstra or Gries style quantification?
-		% Dijkstra < A i: 0 ² i < n: E >
-		% Gries < A i | 0 ² i < n: E >
+		% Dijkstra < A i: 0 <= i < n: E >
+		% Gries < A i | 0 <= i < n: E >
 
 \newboolean{parenth_quant}
 		% Enclose quantification with angular brackets or parentheses?
@@ -165,9 +165,9 @@
 
 
 \let\Oldland\land
-%	\renewcommand{\land}{ \opspace{1}{\Oldland} }
-\let\OldLor\lor
-%	\renewcommand{\lor}{ \opspace{1}{\Oldlor} }
+	\renewcommand{\land}{ \opspace{1}{\Oldland} }
+\let\Oldlor\lor
+	\renewcommand{\lor}{ \opspace{1}{\Oldlor} }
 \ifthenelse{\isundefined{\implies}}
 {
 	\newcommand{\implies}{ \opspace{2}{\Rightarrow} }
