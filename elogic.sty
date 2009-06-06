@@ -25,8 +25,18 @@
 \newcounter{usequotes}
 \newboolean{hasassumptions}
 \newcounter{assumptionblock}
+\newlength{\hintmargin}
+\newlength{\relationmargin}
+\newlength{\subproofindent}
 \newlength{\hintwidth}
 \newlength{\stepspacing}
+\newlength{\basicopseparation}
+
+\setlength{\hintmargin}{20pt}
+\setlength{\relationmargin}{5pt}
+\setlength{\subproofindent}{30pt}
+\setlength{\stepspacing}{8pt}
+\setlength{\basicopseparation}{5pt}
 
 	%
 	% Proof structure
@@ -34,12 +44,13 @@
 \newcommand{\definetabs}
 {  
 	\kill
-	\setcounter{indent}{0}
-	\whiledo{\value{indent} < \value{subproof}}{
-		$\quad$
-		\addtocounter{indent}{1}
-	} 	
-	. $\quad$ . \= $\qquad$ . \= $\quad$ . \= $\qquad$ . \= \kill
+%	\setcounter{indent}{0}
+%	\whiledo{\value{indent} < \value{subproof}}{
+%		$\quad$
+%		\addtocounter{indent}{1}
+%	} 	
+	. \hspace{\value{subproof} \subproofindent}
+	. \hspace{\subproofindent} . \= \hspace{\relationmargin} . \= \hspace{\hintmargin} . \= $\qquad$ . \= \kill
 }
 \newcommand{\entersubproof}
 {
@@ -74,13 +85,12 @@
 \newcommand{\keyword}[1]{\textbf{#1}}
 
 	% Environment for a formal derivation
-\newenvironment{deriv}[1][2mm]
+\newenvironment{deriv}
 {
 	\setcounter{subproof}{0}
 	\setcounter{firstbranch}{0}
 	\setcounter{assumptionblock}{0}
 	\setcounter{assumptionnb}{1}
-	\setlength{\stepspacing}{#1}
 	\begin{tabbing}
 		\definetabs
 } {
@@ -117,7 +127,7 @@
 	}{}
 	\left \{\quad \parbox{\hintwidth}{   #2   }\quad \right \}$
 }	
-\newcommand{\infer}[3][2in]{ 
+\newcommand{\infer}[3][4in]{ 
 	\\[\stepspacing]  \> $\nospace{#2}$ \> \>  \hint{#1}{#3}  \\[\stepspacing]
 }
 	% Concluding note of a derivation
@@ -193,9 +203,9 @@
 \newcommand{\opspace}[2]{
 	\ifthenelse{\boolean{usespace}}
 	{
-		\hspace{#1 mm}
+		\hspace{#1 \basicopseparation}
 		#2
-		\hspace{#1 mm}
+		\hspace{#1 \basicopseparation}
 	}{
 		#2
 	}
