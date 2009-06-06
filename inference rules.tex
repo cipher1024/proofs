@@ -1,0 +1,107 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\usepackage{trfrac}
+\usepackage{elogic}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Brief Article}
+\author{The Author}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+%\section{}
+\subsection{Deduction}
+
+\begin{equation}
+\trfrac[\small(\emph{deduct})]
+		{\Gamma, A \vdash B}
+		{\Gamma \vdash A \implies B}
+\end{equation}
+\begin{equation}
+\trfrac[\small(\emph{deduct})]
+		{\Gamma, A \vdash B}
+		{\Gamma \vdash A \equiv A \land B}
+\end{equation}
+\begin{equation}
+\trfrac[\small(\emph{deduct})]
+		{\Gamma, A \vdash B}
+		{\Gamma \vdash B \equiv A \lor B}
+\end{equation}
+
+\subsection{Leibniz}
+
+\begin{equation}
+\trfrac[\small(\emph{Leibniz})]
+		{\Gamma \vdash A = B }
+		{\Gamma \vdash C [x := A] = C [x := B]}
+\end{equation}
+
+\subsection{Transitivity}
+
+\begin{equation}
+\trfrac[\small(\emph{transitivity})]
+		{
+			\Gamma \vdash A \otimes B \qquad
+			\Gamma \vdash B \oplus C \qquad
+			\Gamma \vdash \iter{\forall}{x,y,z}{x \otimes y \land y \oplus z}{x \otimes z} 
+		}
+		{\Gamma \vdash A \otimes B}
+\end{equation}
+
+\begin{equation}
+\trfrac[\small(\emph{transitivity})]
+		{
+			\Gamma \vdash A \otimes B \qquad
+			\Gamma \vdash B \oplus C \qquad
+			\Gamma \vdash \iter{\forall}{x,y,z}{x \otimes y \land y \oplus z}{x \oplus z} 
+		}
+		{\Gamma \vdash A \oplus B}
+\end{equation}
+
+\subsection{Monotonicity}
+
+\begin{equation}
+\trfrac[\small(\emph{mon})]
+		{
+			\Gamma \vdash A \sqsubseteq B \qquad
+			\Gamma \vdash \iter{\forall}{y,z}{y \sqsubseteq z}{E [x := y] \preceq E [x := z]} 
+		}
+		{\Gamma \vdash E [x := A] \preceq E [x := B]}
+\end{equation}
+
+\begin{equation}
+\trfrac[\small(\emph{antimon})]
+		{
+			\Gamma \vdash A \sqsubseteq B \qquad
+			\Gamma \vdash \iter{\forall}{y,z}{y \sqsubseteq z}{E [x := z] \preceq E [x := y]} 
+		}
+		{\Gamma \vdash E [x := B] \preceq E [x := A]}
+\end{equation}
+
+\subsection{Plumbing}
+
+\begin{equation}
+\trfrac[\small(\emph{$\land E$})]
+		{
+			\Gamma \vdash A \land B
+		}
+		{\Gamma \vdash A}
+\end{equation}
+
+\begin{equation}
+\trfrac[\small(\emph{$\land E$})]
+		{
+			\Gamma \vdash A \land B \qquad
+		}
+		{\Gamma \vdash B}
+\end{equation}
+
+
+\end{document}  
