@@ -20,24 +20,47 @@
 \definecolor{cmtcolor}{rgb}{0,0,0}  %color of comments, black
 \newboolean{@insection}
 \newboolean{@inaction}
+\newboolean{@indesc}
 %-------------------------------------------------------------------
 % Special commands for MACHINE 
 %-------------------------------------------------------------------
 \newcommand{\changesection}[1]
 {
-	\ifthenelse{\boolean{@insection}}{ \end{description}} {}
+	\ifthenelse{\boolean{@insection}}
+	{ 
+		\end{description}
+	} {
+		\ifthenelse{\boolean{@indesc}}
+		{} {
+			\begin{description}
+			\setboolean{@indesc}{true}
+		}
+	}
 	#1 \setboolean{@insection}{true}
 	\begin{description}
 }
+\newcommand{\opensection}
+{ 
+	\setboolean{@indesc}{true}
+	\begin{description} 
+}
+\newcommand{\closesection}
+{
+	\end{description}
+	\setboolean{@indesc}{false}
+}
 \newcommand{\actionsection}[1]
 {
-	\ifthenelse{\boolean{@inaction}}{ \end{description}} {}
+	\ifthenelse{\boolean{@inaction}}
+	{ 
+		\end{description}
+	} {}
 	#1 \setboolean{@inaction}{true}
 	\begin{description}
 }
 
 \newcommand{\MACHINE}[1] 
-	{ \changesection{ \item[\textcolor{keycolor}{MACHINE }] #1 \hspace*{\fill} } }
+	{ \opensection \item[\textcolor{keycolor}{MACHINE }] #1 \hspace*{\fill} }
 
 \newcommand{\REFINES}[1]
 	{ \changesection{ \item[\textcolor{keycolor}{REFINES }] #1 \hspace*{\fill} } }
@@ -57,8 +80,8 @@
 \newcommand{\EVENTS}
 	{  \changesection{ \item[\textcolor{keycolor}{EVENTS}] \hspace*{\fill} } }
 
-\newcommand{\INITIALISATION}
-	{  \changesection{ \item[\textcolor{keycolor}{Initialisation}] \hspace*{\fill} }
+\newcommand{\INIT}
+	{ \item[\textcolor{keycolor}{Initialisation}] \hspace*{\fill}
 	 	\begin{description} }
 
 \newcommand{\DUMMIES}
@@ -91,30 +114,33 @@
 
 \newcommand{\BeginAct}{ \actionsection{ \item[\textcolor{keycolor}{begin}] \hspace*{\fill} } }
 
-\newcommand{\EndAct}{ \ifthenelse{\boolean{@insection}}
+\newcommand{\EndAct}{ 
+	\ifthenelse{\boolean{@inaction}}
 	{
-		\end{description}}{} 
-		\item[\textcolor{keycolor}{end}] \hspace*{\fill} 
 		\end{description}
-	}
+		\setboolean{@inaction}{false}
+	} {} 
+	\item[\textcolor{keycolor}{end}] \hspace*{\fill} 
+	\end{description}
+}
 
 %-------------------------------------------------------------------
 % Special commands for CONTEXT 
 %-------------------------------------------------------------------
 
-\newcommand{\CONTEXT}[1]{  \item[\textcolor{keycolor}{CONTEXT }] #1 \hspace*{\fill} }
+\newcommand{\CONTEXT}[1]{  \opensection \item[\textcolor{keycolor}{CONTEXT }] #1 \hspace*{\fill} }
 
-\newcommand{\EXTENDS}[1]{ \item[\textcolor{keycolor}{EXTENDS }] #1 \hspace*{\fill} }
+\newcommand{\EXTENDS}[1]{ \changesection{ \item[\textcolor{keycolor}{EXTENDS }] #1 \hspace*{\fill} } }
 
-\newcommand{\SETS}{ \item[\textcolor{keycolor}{SETS}] \hspace*{\fill} }
+\newcommand{\SETS}{ \changesection{ \item[\textcolor{keycolor}{SETS}] \hspace*{\fill} } }
 
-\newcommand{\TYPES}{ \item[\textcolor{keycolor}{TYPES}] \hspace*{\fill} }
+\newcommand{\TYPES}{ \changesection{ \item[\textcolor{keycolor}{TYPES}] \hspace*{\fill} } }
 
-\newcommand{\CONSTANTS}{ \item[\textcolor{keycolor}{CONSTANTS}] \hspace*{\fill} }
+\newcommand{\CONSTANTS}{ \changesection{ \item[\textcolor{keycolor}{CONSTANTS}] \hspace*{\fill} } }
 
-\newcommand{\THEOREMS}{ \item[\textcolor{keycolor}{THEOREMS}] \hspace*{\fill} }
+\newcommand{\THEOREMS}{ \changesection{ \item[\textcolor{keycolor}{THEOREMS}] \hspace*{\fill} } }
 
-\newcommand{\AXIOMS}{ \item[\textcolor{keycolor}{AXIOMS}] \hspace*{\fill} }
+\newcommand{\AXIOMS}{ \changesection{ \item[\textcolor{keycolor}{AXIOMS}] \hspace*{\fill} } }
 
 %-------------------------------------------------------------------
 % General commands used in both machines and contexts
@@ -130,9 +156,11 @@
 {
 	\ifthenelse{\boolean{@insection}}
 	{
-		\end{description} \setboolean{@insection}{false}
+		\end{description} 
+		\setboolean{@insection}{false}
 	}{}  
 	\item[\textcolor{keycolor}{END}] \hspace*{\fill} 
+	\closesection
 }
 
 % Printing non-labelled elements
