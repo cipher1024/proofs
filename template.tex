@@ -12,10 +12,10 @@
 	%	`some_article', `other_article' and `packages' (which contains proofs as a submodule) side by
 	%	side.
 	% (END OF NOTE)
+\usepackage{fancyhdr,lastpage,color}
 \usepackage{../packages/bsymb}
 \usepackage{../packages/b2latex}
 \usepackage{../packages/elogic}
-\usepackage{fancyhdr,lastpage,color}
 
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
@@ -29,12 +29,7 @@
 %\subsection{}
 \thispagestyle{empty}
 
-\begin{description}
-
-\BTitle{Name}{Date}{Hour}
 \MACHINE{Name}
 \END
-
-\end{description}
 
 \end{document}  
